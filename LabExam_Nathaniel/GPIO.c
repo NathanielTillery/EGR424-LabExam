@@ -1,8 +1,7 @@
 // --- GPIO.c ---
 // --- Author: Chirag Parikh  ---
 
-/* DriverLib Includes */
-#include "driverlib.h"
+#include "msp.h"
 #include "GPIO.h"
 
 
@@ -19,9 +18,6 @@ void set_data_directions(void)
     /* Set direction of BUZZER */
     P2->SEL0 &= ~BIT4; P2->SEL0 &= ~BIT4;    // P2.4 set to GPIO
     P2->DIR |= BIT4;                        // P2.4 is an output
-
-    /* Set direction of timer to alternate */
-    P8->SEL0 |= BIT1; P8->SEL0 &= ~BIT1;
 
     P2->OUT &= ~BIT4;                       // P2.4 off to start
 

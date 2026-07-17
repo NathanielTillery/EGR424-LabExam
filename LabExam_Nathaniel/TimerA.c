@@ -4,6 +4,7 @@
 /* DriverLib Includes */
 #include "driverlib.h"
 #include "TimerA.h"
+#include <stdio.h>
 
 extern volatile int TIMER_A_CURRENT_PERIOD;
 
@@ -23,9 +24,10 @@ const Timer_A_UpModeConfig upConfig =
 void TimerA_init(void)
 {
     Timer_A_configureUpMode(TIMER_A2_BASE, &upConfig);          // Configuring Timer_A2 for Up Mode
-    NVIC->ISER[0] |= 1 << ((TA2_0_IRQn) & 31);	                // Enable NVIC to accept Timer interrupt
+    Interrupt_enableInterrupt(INT_TA2_0);	                    // Enable NVIC to accept Timer interrupt
     Timer_A_startCounter(TIMER_A2_BASE, TIMER_A_UP_MODE);       // Start Timer
-    __enable_interrupt();				                        // Enable Interrupt mechanism
+    Interrupt_enableMaster();				                    // Enable Interrupt mechanism
+
 }
 
 
@@ -33,8 +35,10 @@ void TimerA_init(void)
 void TA2_0_IRQHandler(void)
 {
 	P2->OUT ^= BIT4;			        // Toggle BUZZER pin
-
-	TIMER_A2->CCTL[0] &= ~CCIFG;        // Clear Capture-Compare Interrupt Flag for TA2.0
+	//P8->IFG &= ~BIT1;
+	//TIMER_A2->CCTL[0] &= ~CCIFG;        // Clear Capture-Compare Interrupt Flag for TA2.0
+	Timer_A_clearCaptureCompareInterrupt(TIMER_A2_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0);
+	//Timer_A_clearInterruptFlag(TIMER_A2_BASE);
     
 }
 

@@ -1,8 +1,7 @@
 // --- Systick.c ---
 // --- Author: Chirag Parikh  ---
 
-/* DriverLib Includes */
-#include "driverlib.h"
+#include "msp.h"
 #include "Systick.h"
 
 // ----- Initialize SysTick ------
